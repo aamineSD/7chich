@@ -1,4 +1,4 @@
-/* --- 1. الأساسيات والتحسينات --- */
+/* --- 1. الأساسيات --- */
 body {
   margin: 0;
   font-family: 'Segoe UI', Arial, sans-serif;
@@ -10,440 +10,134 @@ body {
   overflow-x: hidden;
 }
 
-/* --- 2. Intro Overlay (Animation d الدخلة) --- */
+/* --- 2. Intro Overlay --- */
 #intro-overlay {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: radial-gradient(circle at center, #0044ff 0%, #001122 100%);
-  background-size: 200% 200%;
+  background: #000;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  animation: spaceShift 4s ease-in-out infinite alternate;
+  overflow: hidden;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 
-@keyframes spaceShift {
-  0% { background-position: 0% 0%; filter: hue-rotate(0deg); }
-  100% { background-position: 100% 100%; filter: hue-rotate(20deg); }
+#intro-overlay::before {
+  content: "";
+  position: absolute;
+  width: 150%; height: 150%;
+  background: radial-gradient(circle, rgba(0, 170, 255, 0.1) 0%, transparent 70%);
+  animation: bgOrbit 6s linear infinite;
+}
+
+@keyframes bgOrbit {
+  from { transform: rotate(0deg) scale(1); }
+  to { transform: rotate(360deg) scale(1.1); }
 }
 
 .intro-name {
   color: white;
-  font-size: 4em;
-  font-weight: bold;
-  letter-spacing: 12px;
-  text-shadow: 0 0 30px #00aaff;
-  animation: pulseText 1.5s ease-in-out infinite;
+  font-size: 5em;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 15px;
+  opacity: 0;
+  animation: advancedWelcome 2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+  text-shadow: 0 0 20px rgba(0, 170, 255, 0.8);
+  z-index: 2;
 }
 
-@keyframes pulseText {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.05); opacity: 1; }
+@keyframes advancedWelcome {
+  0% { letter-spacing: 30px; opacity: 0; transform: scale(0.9); }
+  100% { letter-spacing: 10px; opacity: 1; transform: scale(1); }
+}
+
+.intro-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none;
 }
 
 /* --- 3. Profile Container --- */
 .profile-container {
-  display: none;
+  display: block; /* ضروري يبقى block باش ما يقفزش الباكجراوند */
+  opacity: 0;     /* JS غيبينو */
   text-align: center;
   padding: 50px 20px;
+  transition: opacity 0.8s ease;
 }
 
-/* --- 4. Profile Photo & Online Status --- */
-
-/* 1. السيكسيون ديال الصورة */
+/* --- 4. Profile Photo --- */
 .profile-photo {
   position: relative;
-  width: 130px;
-  height: 130px;
+  width: 130px; height: 130px;
   margin: 0 auto;
   border-radius: 50%;
   border: 4px solid #00aaff;
   box-shadow: 0 0 20px rgba(0, 170, 255, 0.5);
-  overflow: hidden; /* ضروري باش اللمعة ما تخرجش */
+  overflow: hidden;
   z-index: 1;
-  opacity: 0;
-  animation: slideDown 0.8s ease-out forwards;
-  animation-delay: 0.1s; /* أول حاجة كتهبط هي الصورة */
+  animation: profileEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.2s;
 }
 
-.profile-photo::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(255, 255, 255, 0.4) 50%,
-    transparent 100%
-  );
-  transform: skewX(-25deg);
-  
-  /* غادي نحيدو الـ delay من هنا وندخلوه وسط الـ Keyframes */
-  animation: shine-avatar-perfect 5s infinite; 
+@keyframes profileEntrance {
+  0% { opacity: 0; transform: scale(0.3) translateY(30px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-@keyframes shine-avatar-perfect {
-  /* من 0% حتى لـ 40% (تقريباً 2 ثواني)، اللمعة كتبقى جامدة وبرا الصورة */
-  0%, 40% { 
-    left: -150%; 
-    opacity: 0; 
-  }
-  /* فـ 41% كبدا تبان وتتحرك */
-  41% {
-    opacity: 1;
-  }
-  /* كتدوز فوق الصورة */
-  55% { 
-    left: 150%; 
-    opacity: 1; 
-  }
-  /* كتختفي مورا ما كتدوز */
-  56%, 100% { 
-    left: 150%; 
-    opacity: 0; 
-  }
-}
+.profile-photo img { width: 100%; height: 100%; object-fit: cover; }
 
-.profile-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-
-@keyframes pulseGreen {
-  0% { transform: scale(1); opacity: 1; }
-  70% { transform: scale(2); opacity: 0; }
-  100% { transform: scale(1); opacity: 0; }
-}
-
-/* --- 5. الاسم --- */
+/* --- 5. الاسم والروابط --- */
 .name {
   margin-top: 20px;
   font-size: 36px;
   letter-spacing: 4px;
   color: #00aaff;
   text-shadow: 0 0 10px #00aaff;
-  opacity: 0;
-  animation: slideDown 1s ease-out forwards;
-  animation-delay: 0.2s; /* تاني حاجة */
-  
 }
 
-/* --- 6. الستايل الموحد (Links & Badges) --- */
-.link-item, .badge {
+.info-badges { display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+
+.badge, .link-item {
   background: rgba(0, 0, 0, 0.55);
   border: 1px solid #00aaff;
-  backdrop-filter: blur(6px);
   border-radius: 10px;
   color: #00aaff;
-  transition: 0.3s ease;
-}
-
-/* --- 7. البادجز (المعلومات) --- */
-.info-badges {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin: 20px 0;
-}
-
-.badge {
-  padding: 8px 16px;
-  font-size: 14px;
-  opacity: 0;
-  animation: badgePop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-.badge i {
-  margin-right: 8px; /* مسافة بين الأيقونة والكتبة */
-}
-
-/* توقيت البادجز */
-.badge:nth-child(1) { animation-delay: 0.4s; }
-.badge:nth-child(2) { animation-delay: 0.5s; }
-.badge:nth-child(3) { animation-delay: 0.6s; }
-
-/* --- 8. الوصف --- */
-/* --- ستايل الوصف الجديد (Neon Glass Style) --- */
-.description-box {
-  margin: 25px auto;
-  max-width: 320px;
-  padding: 20px;
-  
-  /* خلفية زجاجية داكنة */
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  
-  /* إطار نيون رقيق فقط من الفوق والتحت */
-  border-top: 1.5px solid rgba(0, 170, 255, 0.7);
-  border-bottom: 1.5px solid rgba(0, 170, 255, 0.7);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  
-  border-radius: 20px;
-  color: #e0e0e0;
-  font-size: 15px;
-  line-height: 1.7;
-  position: relative;
-  overflow: hidden;
-  
-  /* الأنميشن */
-  opacity: 0;
-  animation: slideDown 0.8s ease-out forwards;
-  animation-delay: 0.8s;
-  
-  /* ضل خارجي يعطي تأثير التوهج */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 170, 255, 0.1);
-}
-
-/* إضافة لمسة ضوئية (Reflection) */
-.description-box::before {
-  content: "";
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-  transition: 0.8s;
-}
-
-.description-box:hover::before {
-  left: 100%;
-}
-
-.description-box:hover {
-  transform: scale(1.01);
-  background: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 170, 255, 0.2);
-  border-top-color: #00aaff;
-  border-bottom-color: #00aaff;
-}
-/* --- 9. الروابط --- */
-.link-item {
-  display: block;
-  margin: 12px auto;
-  padding: 12px 20px;
-  width: 260px;
   text-decoration: none;
-  font-size: 18px;
-  opacity: 0;
-  animation: slideDown 0.8s ease-out forwards;
+  transition: 0.3s;
 }
 
-/* توقيت الروابط (واحد ورا واحد) */
-.link-item:nth-child(1) { animation-delay: 1.0s; }
-.link-item:nth-child(2) { animation-delay: 1.1s; }
-.link-item:nth-child(3) { animation-delay: 1.2s; }
-.link-item:nth-child(4) { animation-delay: 1.3s; }
+.badge { padding: 8px 15px; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; }
+.diamond-link { color: inherit; text-decoration: none; }
 
-/* --- 10. Hover الموحد --- */
+.description-box {
+  margin: 20px auto;
+  max-width: 300px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.4);
+  border-top: 2px solid #00aaff;
+  border-bottom: 2px solid #00aaff;
+  border-radius: 15px;
+}
+
+.link-item { display: block; margin: 10px auto; padding: 12px; width: 240px; font-size: 18px; }
+
 .link-item:hover, .badge:hover {
-  transform: translateY(-5px) scale(1.02);
-  background: rgba(0, 170, 255, 0.2);
-  border-color: #fff;
-  box-shadow: 0 0 20px rgba(0, 170, 255, 0.6);
-  color: #fff;
-}
-
-/* --- 11. الأنميشنز الأساسية --- */
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes badgePop {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 1; transform: scale(1); }
-}
-/* هاد الجزء كيطبق اللمعة وسط الدائرة */
-.profile-photo {
-  position: relative;
-  display: inline-block; /* باش ياخد عبار الصورة */
-  border-radius: 50%;    /* كأكد بلي الصندوق دائري */
-  overflow: hidden;      /* هادي هي اللي كتقطع اللمعة باش ما تخرجش على الدائرة */
-  z-index: 1;
-}
-
-.name:hover {
-  transform: translateY(-5px) scale(1.05); /* كطلع شوية وكيكبر الحجم ديالها */
-  color: #fff;                             /* كيولي اللون أبيض ناصع */
-  text-shadow: 0 0 20px #00aaff, 0 0 40px #00aaff; /* كيتزاد التوهج (Glow) */
-}
-.profile-photo {
-
-  /* الأنميشن الجديدة: كطلع الصورة كاملة من الصغير للكبير */
-  opacity: 0;
-  transform: scale(0.3); /* كبدا صغيرة بزاف */
-  animation: profileEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  animation-delay: 0.2s; /* كتبان مورا Welcome بشوية */
-}
-
-/* الأنميشن اللي كتخلي الصورة تخرج كاملة */
-@keyframes profileEntrance {
-  0% {
-    opacity: 0;
-    transform: scale(0.3) translateY(50px); /* جاية من لتحت وصغيرة */
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0); /* كتشد بلاصتها الطبيعية */
-  }
-}
-
-/* Hover تأثير اللي درنا قبل كيبقى خدام */
-.profile-photo:hover {
-  transform: scale(1.1) rotate(2deg);
-  box-shadow: 0 0 30px #00aaff;
-  transition: 0.4s ease;
-}
-/* ستايل الرابط ديال Diamond Rank */
-/* حيد السطر واللون القديم */
-.diamond-link {
-  text-decoration: none !important; /* كتحيد السطر الموف */
-  color: #00aaff; 
-  transition: 0.3s ease;
-}
-
-/* ستايل الـ Badge */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.6); /* خلفية غامقة بحال التصويرة */
-  border: 1.5px solid #00aaff;
-  border-radius: 25px;
-  transition: 0.3s all ease;
-  cursor: pointer;
-}
-
-/* فاش كتحط الماوس على الـ Badge كامل */
-.badge:hover {
   background: #00aaff;
+  color: #fff;
   transform: translateY(-3px);
 }
 
-/* الكتبة والأيقونة كيدورو للبيض فاش كتقيس الـ Badge */
-.badge:hover .diamond-link,
-.badge:hover i {
-  color: #ffffff !important;
-}
-/* --- Intro Overlay المطورة --- */
-#intro-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: #000; /* خلفية سوداء عميقة */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  overflow: hidden;
-  transition: opacity 1.2s cubic-bezier(0.7, 0, 0.3, 1);
-}
-
-/* تأثير الخلفية المتحركة وراء الكلمة */
-#intro-overlay::before {
-  content: "";
-  position: absolute;
-  width: 150%; height: 150%;
-  background: radial-gradient(circle, rgba(0, 170, 255, 0.15) 0%, transparent 70%);
-  animation: bgOrbit 6s linear infinite;
-}
-
-@keyframes bgOrbit {
-  from { transform: rotate(0deg) scale(1); }
-  to { transform: rotate(360deg) scale(1.2); }
-}
-
-/* الأنميشن ديال الكلمة Welcome */
-.intro-name {
-  color: white;
-  font-size: 5em;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 25px; /* كتبدا مفرقة بزاف */
-  filter: blur(15px);
-  opacity: 0;
-  animation: advancedWelcome 2.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
-  text-shadow: 0 0 20px rgba(0, 170, 255, 0.8), 
-               0 0 50px rgba(0, 170, 255, 0.4);
-}
-
-@keyframes advancedWelcome {
-  0% {
-    letter-spacing: 40px;
-    filter: blur(20px);
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 0.5;
-    filter: blur(5px);
-  }
-  100% {
-    letter-spacing: 10px; /* كتجمع الكلمة */
-    filter: blur(0);
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* كلاس الإخفاء النهائي */
-.intro-hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-@media (max-width: 600px) {
-    .intro-name {
-        font-size: 2.5em;      /* نص الحجم باش تجي قد الشاشة */
-        letter-spacing: 5px;   /* كنجمعو الحروف باش مايخرجوش */
-        padding: 0 10px;       /* شوية ديال الفراغ في الجناب */
-    }
-
-    @keyframes cyberReveal {
-        0% { 
-            opacity: 0; 
-            transform: translateZ(-300px) rotateX(90deg); 
-            filter: blur(15px); 
-            letter-spacing: 20px; /* في التليفون كيبدا بـ 20 ماشي 50 */
-        }
-        100% { 
-            opacity: 1; 
-            transform: translateZ(0) rotateX(0deg); 
-            filter: blur(0); 
-            letter-spacing: 5px; 
-        }
-    }
-}
+/* --- 6. Responsive (Realme 10 / Mobile) --- */
 @media screen and (max-width: 480px) {
-    .intro-name {
-        /* 12vw كتعني أن الخط غياخد 12% من عرض الشاشة بالظبط */
-        font-size: 11vw; 
-        letter-spacing: 4px; /* حروف مجموعين باش يبانو كاملين */
-        padding: 0 5px;
-    }
-
-    @keyframes cyberReveal {
-        0% { 
-            opacity: 0; 
-            transform: scale(0.5) translateY(20px); 
-            filter: blur(15px); 
-            letter-spacing: 15px; /* كيبدا مفرق شوية وكيجمع */
-        }
-        100% { 
-            opacity: 1; 
-            transform: scale(1) translateY(0); 
-            filter: blur(0); 
-            letter-spacing: 4px; 
-        }
-    }
+  body { background-attachment: scroll; } /* كيحيد الثقل فالتليفون */
+  .intro-name { font-size: 11vw; letter-spacing: 4px; }
+  
+  @keyframes advancedWelcome {
+    0% { letter-spacing: 15px; opacity: 0; }
+    100% { letter-spacing: 4px; opacity: 1; }
+  }
 }
