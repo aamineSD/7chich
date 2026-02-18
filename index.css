@@ -402,3 +402,25 @@ body {
   visibility: hidden;
   pointer-events: none;
 }
+@media (max-width: 600px) {
+    .intro-name {
+        font-size: 2.5em;      /* نص الحجم باش تجي قد الشاشة */
+        letter-spacing: 5px;   /* كنجمعو الحروف باش مايخرجوش */
+        padding: 0 10px;       /* شوية ديال الفراغ في الجناب */
+    }
+
+    @keyframes cyberReveal {
+        0% { 
+            opacity: 0; 
+            transform: translateZ(-300px) rotateX(90deg); 
+            filter: blur(15px); 
+            letter-spacing: 20px; /* في التليفون كيبدا بـ 20 ماشي 50 */
+        }
+        100% { 
+            opacity: 1; 
+            transform: translateZ(0) rotateX(0deg); 
+            filter: blur(0); 
+            letter-spacing: 5px; 
+        }
+    }
+}
