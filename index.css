@@ -424,3 +424,26 @@ body {
         }
     }
 }
+@media screen and (max-width: 480px) {
+    .intro-name {
+        /* 12vw كتعني أن الخط غياخد 12% من عرض الشاشة بالظبط */
+        font-size: 11vw; 
+        letter-spacing: 4px; /* حروف مجموعين باش يبانو كاملين */
+        padding: 0 5px;
+    }
+
+    @keyframes cyberReveal {
+        0% { 
+            opacity: 0; 
+            transform: scale(0.5) translateY(20px); 
+            filter: blur(15px); 
+            letter-spacing: 15px; /* كيبدا مفرق شوية وكيجمع */
+        }
+        100% { 
+            opacity: 1; 
+            transform: scale(1) translateY(0); 
+            filter: blur(0); 
+            letter-spacing: 4px; 
+        }
+    }
+}
