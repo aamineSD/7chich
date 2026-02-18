@@ -1,36 +1,36 @@
-window.addEventListener("load", () => {
-    const overlay = document.getElementById("intro-overlay");
-    const container = document.querySelector(".profile-container");
-
-    setTimeout(() => {
-        overlay.style.transition = "opacity 0.5s ease";
-        overlay.style.opacity = "0";
-
-        setTimeout(() => {
-            overlay.style.display = "none";
-            // هنا كيبان كلشي دقة وحدة بالأنميشن ديالو
-            container.style.display = "block";
-        }, 300); 
-    }, 1500); 
-});
 window.addEventListener('load', () => {
     const intro = document.getElementById('intro-overlay');
     const welcomeText = document.querySelector('.intro-name');
+    const container = document.querySelector('.profile-container');
 
-    // مورا ما تسالي أنميشن Welcome (تقريبا 3 ثواني)
+    // كنأكدو أن البروفايل ديجا واخد مساحتو ولكن شفاف
+    if (container) {
+        container.style.opacity = "0";
+    }
+
+    // مورا 2.5 ثانية (وقت كافي للـ Welcome)
     setTimeout(() => {
-        // تأثير نبضة أخيرة قبل الاختفاء
-        welcomeText.style.transition = "all 0.5s ease";
-        welcomeText.style.letterSpacing = "30px";
-        welcomeText.style.opacity = "0";
-        welcomeText.style.filter = "blur(20px)";
+        // 1. غبر الكلمة Welcome
+        if (welcomeText) {
+            welcomeText.style.transition = "all 0.6s ease";
+            welcomeText.style.opacity = "0";
+            welcomeText.style.transform = "scale(1.1)";
+        }
 
+        // 2. حيد الـ Intro وببين البروفايل
         setTimeout(() => {
-            intro.classList.add('intro-hidden');
-            
-            // مورا ما يحيد الـ Intro، نحيدوه من الكود باش ما يتقلش
-            setTimeout(() => intro.remove(), 1200);
+            if (intro) {
+                intro.classList.add('intro-hidden');
+            }
+            if (container) {
+                container.style.opacity = "1";
+            }
+
+            // 3. مسح الـ Intro نهائياً مورا ما يختفي باش ما يتقلش الرام
+            setTimeout(() => {
+                if (intro) intro.remove();
+            }, 800);
         }, 500);
-        
-    }, 3500); 
+
+    }, 2500); 
 });
