@@ -32,5 +32,5 @@ window.addEventListener('load', () => {
             }, 800);
         }, 500);
 
-    }, 2500); 
+    }, 1500); 
 });
