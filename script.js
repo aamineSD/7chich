@@ -154,24 +154,12 @@ if (!isWeak) {
 }
 
 /* ── VISIT COUNTER ── */
-const visitEl = document.getElementById('visit-count');
 try {
-  let count = parseInt(localStorage.getItem('7chich_visits') || '0', 10);
-  count++;
-  localStorage.setItem('7chich_visits', count);
-  // Animate count up
-  const target = count;
-  let current = Math.max(0, target - Math.min(target, 30));
-  const step = () => {
-    if (current < target) {
-      current++;
-      visitEl.textContent = current;
-      visitEl.style.transform = 'scale(1.2)';
-      setTimeout(() => visitEl.style.transform = 'scale(1)', 80);
-      setTimeout(step, 30);
-    }
-  };
-  setTimeout(step, 3200);
-} catch(e) {
-  visitEl.textContent = '—';
-}
+  const visitEl = document.getElementById('visit-count');
+  if (visitEl) {
+    let count = parseInt(localStorage.getItem('7chich_visits') || '0', 10);
+    count++;
+    localStorage.setItem('7chich_visits', count);
+    visitEl.textContent = count;
+  }
+} catch(e) {}

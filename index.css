@@ -61,23 +61,25 @@ html, body { min-height:100%; background:var(--bg); color:var(--text); font-fami
   border:1px solid rgba(168,85,247,.22); border-radius:24px;
   padding:clamp(28px,5vw,46px) clamp(20px,5vw,40px);
   backdrop-filter:blur(16px);
-  box-shadow:
-    0 0 0 1px rgba(168,85,247,.08),
-    0 8px 50px rgba(123,47,255,.4),
-    0 0 80px rgba(123,47,255,.08),
-    inset 0 1px 0 rgba(255,255,255,.05);
+  box-shadow:0 0 0 1px rgba(168,85,247,.08),0 8px 50px rgba(123,47,255,.4),0 0 80px rgba(123,47,255,.08),inset 0 1px 0 rgba(255,255,255,.05);
   opacity:0; transform:translateY(36px); transition:opacity .8s ease,transform .8s ease;
   will-change:opacity,transform;
-  animation:cardGlow 4s ease-in-out infinite;
 }
 .card.visible { opacity:1; transform:translateY(0); }
+
+/* توهج الكارد — فقط على الأجهزة القوية عبر media query */
+@media (min-width:481px) and (hover:hover) {
+  .card.visible {
+    animation: cardGlow 5s ease-in-out infinite;
+  }
+}
+@keyframes cardGlow {
+  0%,100% { filter: drop-shadow(0 0 8px rgba(123,47,255,.35)); }
+  50%      { filter: drop-shadow(0 0 22px rgba(232,121,249,.55)); }
+}
+
 .card::before { content:''; position:absolute; top:-1px; left:30px; right:30px; height:1px; background:linear-gradient(90deg,transparent,var(--neon-bright),transparent); opacity:.6; }
 .card::after  { content:''; position:absolute; bottom:-1px; left:30px; right:30px; height:1px; background:linear-gradient(90deg,transparent,var(--purple-light),transparent); opacity:.4; }
-
-@keyframes cardGlow {
-  0%,100% { box-shadow: 0 0 0 1px rgba(168,85,247,.08), 0 8px 50px rgba(123,47,255,.4), 0 0 80px rgba(123,47,255,.08), inset 0 1px 0 rgba(255,255,255,.05); }
-  50%      { box-shadow: 0 0 0 1px rgba(232,121,249,.18), 0 8px 60px rgba(123,47,255,.65), 0 0 120px rgba(232,121,249,.18), inset 0 1px 0 rgba(255,255,255,.08); }
-}
 
 /* AVATAR */
 .avatar-wrap { display:flex; justify-content:center; margin-bottom:20px; }
@@ -150,15 +152,12 @@ html, body { min-height:100%; background:var(--bg); color:var(--text); font-fami
 /* FOOTER */
 .footer-line {
   margin-top:22px; text-align:center;
-  font-size:.68rem; letter-spacing:.2em; color:rgba(157,127,200,.45);
-  display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap;
+  font-size:.68rem; letter-spacing:.2em; color:rgba(157,127,200,.35);
+  display:flex; align-items:center; justify-content:center; gap:5px; flex-wrap:wrap;
 }
-.visit-icon { color:var(--neon); font-size:.72rem; animation:eyePulse 2.5s ease-in-out infinite; }
-@keyframes eyePulse { 0%,100%{opacity:.4} 50%{opacity:1} }
 #visit-count {
-  font-family:'Orbitron',monospace; font-size:.7rem;
-  color:var(--neon-bright); letter-spacing:.1em;
-  transition:transform .2s ease;
+  font-family:'Orbitron',monospace; font-size:.65rem;
+  color:var(--neon); letter-spacing:.1em;
 }
 
 /* RIPPLE */
