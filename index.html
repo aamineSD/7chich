@@ -2,51 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  <title>MADE IN MOROCCO - Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MA | 7CHICH — MADE IN MOROCCO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <canvas id="bg-canvas"></canvas>
+
   <div id="intro-overlay">
-    <h1 class="intro-name" >WELCOME</h1>
+    <div class="intro-particles" id="intro-particles"></div>
+    <div class="intro-logo">MADE IN MOROCCO</div>
+    <div class="intro-sub">BRAWLHALLA · 7CHICH</div>
+    <div class="intro-bar"></div>
   </div>
-  
-  <div class="profile-container">
-    <div class="profile-photo">
-      <img src="7chich.jpg" alt="Profile Photo">
-   
-    </div>
-    
-    <h1 class="name">MA | 7CHICH</h1>
 
-    <div class="info-badges">
-      <span class="badge"><i class="fas fa-gem"></i> <a href="https://www.ramarrohub.it/player-info/114018361" class="diamond-link">Live Tracker</a></span>
-      <span class="badge"><i class="fas fa-map-marker-alt"></i> Morocco</span>
-      <span class="badge"><i class="fas fa-gamepad"></i> Wu shang Main</span>
-    </div>
+  <div class="page-wrap">
+    <div class="card" id="main-card">
 
-    <div class="description-box">
-      Brawlhalla Player <br>
-      owner of the "MADE IN MOROCCO" server.
-    </div>
+      <div class="avatar-wrap reveal">
+        <div class="avatar-ring">
+          <!-- Replace with: <img src="7chich.jpg" alt="7CHICH"> -->
+          <div class="avatar-placeholder">7C</div>
+        </div>
+      </div>
 
-    <div class="links">
-      <a class="link-item" href="https://www.tiktok.com/@7chich_brawl" target="_blank">
-        <i class="fab fa-tiktok"></i> TikTok
-      </a>
+      <div class="name reveal" id="name-el"></div>
+      <div class="server-tag reveal">MADE IN MOROCCO</div>
+      <div class="divider reveal"></div>
 
-      <a class="link-item" href="https://discord.gg/ENdPxqmGw3" target="_blank">
-        <i class="fas fa-users"></i> Join Discord Server
-      </a>
+      <div class="badges reveal">
+        <span class="badge"><i class="fas fa-gem"></i><a href="https://www.ramarrohub.it/player-info/114018361" target="_blank">Live Tracker</a></span>
+        <span class="badge"><i class="fas fa-map-marker-alt"></i> Morocco</span>
+        <span class="badge"><i class="fas fa-gamepad"></i> Wu shang Main</span>
+      </div>
 
-      <a class="link-item" href="https://discord.com/users/1210929726927933481" target="_blank">
-        <i class="fab fa-discord"></i> Discord DM
-      </a>
+      <div class="desc reveal">
+        Brawlhalla Player &amp; owner of the<br>
+        <strong style="color:var(--neon)">"MADE IN MOROCCO"</strong> server.
+      </div>
 
-      <a class="link-item" href="https://steamcommunity.com/profiles/76561199644220030/" target="_blank">
-        <i class="fab fa-steam"></i> Steam
-      </a>
+      <div class="links">
+        <a class="link-item reveal" href="https://www.tiktok.com/@7chich_brawl" target="_blank">
+          <i class="fab fa-tiktok"></i> TikTok
+          <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+        <a class="link-item reveal" href="https://discord.gg/ENdPxqmGw3" target="_blank">
+          <i class="fas fa-users"></i> Join Discord Server
+          <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+        <a class="link-item reveal" href="https://discord.com/users/1210929726927933481" target="_blank">
+          <i class="fab fa-discord"></i> Discord DM
+          <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+        <a class="link-item reveal" href="https://steamcommunity.com/profiles/76561199644220030/" target="_blank">
+          <i class="fab fa-steam"></i> Steam
+          <span class="link-arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+      </div>
+
+      <div class="footer-line reveal">© 2025 MA | 7CHICH · MADE IN MOROCCO</div>
     </div>
   </div>
 
